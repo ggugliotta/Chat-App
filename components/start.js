@@ -90,11 +90,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     padding: 10,
   }
-  buttonText: {
-    color: "#FFF",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
 });
 
 export default Start;
