@@ -37,7 +37,6 @@ const Start = ({ navigation }) => {
         />
            <TouchableOpacity
             style={styles.button}
-            onPress={signInUser}
             accessible={true}
             accessibilityLabel="Get chatting Button"
             accessibilityHint="Navigates to the chat screen."
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputContainer: {
-    backgroundColor: "#FFFFFF",0
+    backgroundColor: "#FFFFFF",
     padding: "6%",
     paddingBottom: 20,
   },
