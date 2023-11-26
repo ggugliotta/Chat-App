@@ -1,14 +1,5 @@
-import React from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  Text, 
-  TextInput, 
-  Button,
-  ScrollView,
-  ImageBackground,
-  TouchableOpacity,
- } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, Button, ImageBackground, TouchableOpacity } from 'react-native';
 
 const Start = ({ navigation }) => {
 
@@ -31,8 +22,9 @@ const Start = ({ navigation }) => {
     resizeMode="cover"
     style={styles.backgroundImage}
     >
-      <Text style={styles.chatTitle}>App</Text>
+      <Text style={styles.chatTitle}>Chat App</Text>
       <View style={styles.container}>
+        <Text>Hello Screen1!</Text>
        <TextInput
          style={styles.textInput}
          value={name}
@@ -41,7 +33,7 @@ const Start = ({ navigation }) => {
         />
         <Button
          title="Go to Chat"
-         onPress={() => navigation.navigate('Chat')}
+         onPress={() => navigation.navigate('Chat', { name })}
         />
            <TouchableOpacity
             style={styles.button}

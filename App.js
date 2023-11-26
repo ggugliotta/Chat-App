@@ -1,6 +1,6 @@
 // import the screens
-import Start from './components/start.js';
-import Chat from './components/chat.js';
+import Start from './components/start';
+import Chat from './components/chat';
 
 // import react Navigation
 import { NavigationContainer } from '@react-navigation/native';
