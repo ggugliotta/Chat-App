@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ImageBackground, TouchableOpacity } from 'react-native';
 
 const Start = ({ navigation }) => {
@@ -26,10 +26,10 @@ const Start = ({ navigation }) => {
       <View style={styles.container}>
         <Text>Hello Screen1!</Text>
        <TextInput
-         style={styles.textInput}
+         style={styles.nameTextInput}
          value={name}
          onChangeText={setName}
-         placeholder='Your Name'
+         placeholder='Type your name here...'
         />
         <Button
          title="Go to Chat"
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF",0
     padding: "6%",
     paddingBottom: 20,
   },
