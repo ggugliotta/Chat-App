@@ -1,7 +1,20 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button, ImageBackground, TouchableOpacity } from 'react-native';
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
+  const auth = getAuth();
+
+   const signInUser = () => {
+    signInAnonymously(auth)
+      .then(result => {
+        navigation.navigate("chat", {userID: result.user.uid });
+        Alert.alert("Signed in Successfully!");
+      })
+      .catch((error) => {
+        Alert.alert("Unable to sign in, try later again.");
+      })
+  }
 
   // Background Image
   const backgroundImage = require('../assets/BackgroundImage.png');
@@ -31,21 +44,15 @@ const Start = ({ navigation }) => {
          onChangeText={setName}
          placeholder='Type your name here...'
         />
-        <Button
-         title="Go to Chat"
-         onPress={() => navigation.navigate('Chat', { name })}
-        />
-         {/* 
         <TouchableOpacity
-            style={styles.button}
-            accessible={true}
-            accessibilityLabel="Get chatting Button"
-            accessibilityHint="Navigates to the chat screen."
-            accessibilityRole="button"
-          >
-            <Text style={styles.buttonText}>Get chatting!</Text>
-          </TouchableOpacity> 
-          */}
+          style={styles.startButton}
+          onPress={signInUser}
+          accessible={true}
+          accessibilityLabel="Get chatting Button"
+          accessibilityHint="Navigates to the chat screen."
+          accessibilityRole="button">
+          <Text style={styles.startButtonText}>Get started</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
  );
