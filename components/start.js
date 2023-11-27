@@ -48,7 +48,7 @@ const Start = ({ navigation }) => {
           style={styles.startButton}
           onPress={signInUser}
           accessible={true}
-          accessibilityLabel="Get chatting Button"
+          accessibilityLabel="Get started Button"
           accessibilityHint="Navigates to the chat screen."
           accessibilityRole="button">
           <Text style={styles.startButtonText}>Get started</Text>
@@ -86,9 +86,12 @@ const styles = StyleSheet.create({
     color: 'gray',
     padding: 15,
   },
-  button: {
+  startButton: {
     backgroundColor: "#000",
     padding: 10,
+  },
+  startButtonText: {
+    color: "#FFF",
   }
 });
 
