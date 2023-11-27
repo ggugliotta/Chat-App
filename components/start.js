@@ -35,7 +35,8 @@ const Start = ({ navigation }) => {
          title="Go to Chat"
          onPress={() => navigation.navigate('Chat', { name })}
         />
-           <TouchableOpacity
+         {/* 
+        <TouchableOpacity
             style={styles.button}
             accessible={true}
             accessibilityLabel="Get chatting Button"
@@ -43,7 +44,8 @@ const Start = ({ navigation }) => {
             accessibilityRole="button"
           >
             <Text style={styles.buttonText}>Get chatting!</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> 
+          */}
       </View>
     </ImageBackground>
  );
@@ -71,10 +73,10 @@ const styles = StyleSheet.create({
     padding: "6%",
     paddingBottom: 20,
   },
-  textInput: {
+  nameTextInput: {
     fontSize: 16,
     fontWeight: '300',
-    color: '#757083',
+    color: 'gray',
     padding: 15,
   },
   button: {
