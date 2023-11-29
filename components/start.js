@@ -47,11 +47,6 @@ const Start = ({ navigation }) => {
       resizeMode="cover"
       style={styles.bgImage}
     >
-    
-     <Keyboard Avoiding View 
-       behavior={Platform.OS === "ios" ? "padding" : "height"}
-       style={styles.container}
-      >
 
       {/* App Title */}
         <Text style={styles.title}>Zing Ping</Text>
@@ -114,10 +109,12 @@ const Start = ({ navigation }) => {
             <Text style={styles.buttonText}>Get started</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+        { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null   }
+        { Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null   }
     </ImageBackground>
   ) ;
 };
+
 
 // Styling for Start Component
 

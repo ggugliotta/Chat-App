@@ -25,7 +25,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       unsubMessages = null;
   
       // Query Firestore for messages, ordered by createdAt
-      const q = query(collection(db, "messages")), orderBy("createdAt", "desc"));
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
       
      // Listen for real-time changes in messages collection
      unsubMessages = onSnapshot(q, (docs) => {
