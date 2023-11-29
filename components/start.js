@@ -4,22 +4,19 @@ b: "#E6E6FA", lavendar
 c: "#ADD8E6", light blue
 d: "#EB5E00", clementine */}
 
-
 import React from 'react';
 import { useState } from 'react';
 import { Alert, ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity,  View } from 'react-native';
 import { getAuth, signInAnonymously } from "firebase/auth";
  
-
 // Background Image
 const backgroundImage = require('../assets/BackgroundImage.png');
-
 
 const Start = ({ navigation }) => {
   const [background, setBackground ] = useState('#FFFFFF');
   const [name, setName] = useState();
   
-  
+
   const auth = getAuth();
 
    const signInUser = () => {
@@ -138,15 +135,16 @@ const Start = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingBottom: 50,
   },
   backgroundImage: {
     flex: 1,
-    justifyContent: "space-evenly",
-    padding: "6%",
+    justifyContent: "center",
     resizeMode: "cover",
     alignItems: "center",
+    justifyContent: "flex-end",
   },
   title: {
     fontSize: 45,
@@ -157,11 +155,11 @@ const styles = StyleSheet.create({
   inputBox: {
     height: "44%",
     width: '88%',
+    height: '44%',
     padding: 15,
     borderWidth: 1,
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 25,
     backgroundColor: "#FFF",
     fontSize: 16,
     opacity: 50,
@@ -172,13 +170,11 @@ const styles = StyleSheet.create({
     width: "88%",
     padding: 15,
     borderWidth: 1,
-    borderRadius: 10,
     marginTop: 15,
     marginBottom: 15,
     fontSize: 16,
     fontWeight: '300',
     color: '#757083',
-    padding: 15,
     opacity: 0.5,
   },
   colorButton: {
@@ -226,6 +222,7 @@ const styles = StyleSheet.create({
   startButton: {
     backgroundColor: "#000",
     padding: 10,
+    width: "88%",
   },
   startButtonText: {
     color: "#FFF",
