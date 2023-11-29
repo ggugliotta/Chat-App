@@ -26,8 +26,12 @@ const Start = ({ navigation }) => {
     d: "#B9C6AE",
   };
 
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState('#FFFFFF');
   const [backgroundColor, setBackgroundColor] = React.useState('#FFFFFF');
+
+  const colorHandler = (color) => {
+    setBackgroundColor(color);
+  };
 
  return (
   <ImageBackground 
@@ -44,6 +48,38 @@ const Start = ({ navigation }) => {
          onChangeText={setName}
          placeholder='Type your name here...'
         />
+        <TouchableOpacity
+          style={[styles.colorChooser, {backgroundColor: Colors.a }]}
+          onPress={() => colorHandler(colors.a)}
+          accessible={true}
+          accessibilityLabel='Black Button'
+          accessibilityHints='Lets you select the background color of your chat'
+          accessibilityRole='button'
+        ></TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.colorChooser, {backgroundColor: Colors.b }]}
+          onPress={() => colorHandler(colors.b)}
+          accessible={true}
+          accessibilityLabel='Purple Button'
+          accessibilityHints='Lets you select the background color of your chat'
+          accessibilityRole='button'
+        ></TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.colorChooser, {backgroundColor: Colors.c }]}
+          onPress={() => colorHandler(colors.c)}
+          accessible={true}
+          accessibilityLabel='Gray Button'
+          accessibilityHints='Lets you select the background color of your chat'
+          accessibilityRole='button'
+        ></TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.colorChooser, {backgroundColor: Colors.d }]}
+          onPress={() => colorHandler(colors.d)}
+          accessible={true}
+          accessibilityLabel='Green Button'
+          accessibilityHints='Lets you select the background color of your chat'
+          accessibilityRole='button'
+        ></TouchableOpacity>
         <TouchableOpacity
           style={styles.startButton}
           onPress={signInUser}
@@ -76,9 +112,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputContainer: {
-    backgroundColor: "#FFFFFF",
-    padding: "6%",
-    paddingBottom: 20,
+    width: '88%',
+    padding: 15,
+    borderWidth: 1,
+    marginTop: 10,
+    marginBottom: 25,
+    backgroundColor: "#FFF",
+    fontSize: 16,
+    opacity: 50,
+    borderRadius: 5
   },
   nameTextInput: {
     fontSize: 16,
@@ -92,6 +134,13 @@ const styles = StyleSheet.create({
   },
   startButtonText: {
     color: "#FFF",
+  },
+  colorChooser: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    marginVertical: 25,
+    marginHorizontal: 10,
   }
 });
 

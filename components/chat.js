@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
+import { collection, getDocs, addDoc, onSnapshot, query, where } from "firebase/firestore";
 
-const Chat = ({ route, navigation }) => {
-  const { name } = route.params;
+const Chat = ({ db, route, navigation }) => {
+  const { userID } = route.params;
   const [messages, setMessages] = useState([]);
-  
 
   useEffect(() => {
     navigation.setOptions({ title: name })
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-      {
-        _id: 2,
-        text: 'You have joined Chat',
-        createdAt: new Date(),
-        system: true,
-      }
-    ]);
+    
   }, []);
 
   const onSend = (newMessages) => {
