@@ -1,4 +1,4 @@
-{/* Colors for the color chooser
+{/* Colors for the Background Color Selector
 a: "#FFDB58",  muustard yellow
 b: "#E6E6FA", lavendar
 c: "#ADD8E6", light blue
@@ -39,17 +39,17 @@ const Start = ({ navigation }) => {
       });
   };
 
-
-
  return (
   <View style={styles.container}>
+    
+    {/* Default Background Image Setting */}
     <ImageBackground 
       source={backgroundImage} 
       resizeMode="cover"
       style={styles.backgroundImage}
     >
       {/* App Title */}
-      <Text style={styles.title}>Chat App</Text>
+      <Text style={styles.title}>Zing Ping</Text>
 
       {/* Container for username input, color choice, and button */}
       <View style={styles.inputBox}>
@@ -61,16 +61,16 @@ const Start = ({ navigation }) => {
          placeholder='Type your name here...'
         ></TextInput>
 
-        {/* Color Chooser */}
+        {/* Background Color Selector */}
         <View>
           <Text style={styles.chooseBgText}>Choose Background Color</Text>
           
           {/* container for colors */}
           <View style={styles.colorButtonBox}>
           
-          {/* Color Option 1: Mustard Yellow */}
+          {/* Color Option 1: Mustard Yellow Box */}
           <TouchableOpacity
-            style={[styles.colorChooser, styles.colorOption1]}
+            style={[styles.box, styles.colorOption1]}
             onPress={() => { setBackground(styles.colorOption1.backgroundColor);
             }}
             accessible={true}
@@ -79,9 +79,9 @@ const Start = ({ navigation }) => {
             accessibilityRole='button'
           ></TouchableOpacity>
 
-          {/* Color Option 2: Lavendar */}
+          {/* Color Option 2: Lavendar Box */}
           <TouchableOpacity
-            style={[styles.colorChooser, styles.colorOption2]}
+            style={[styles.box, styles.colorOption2]}
             onPress={() => { setBackground(styles.colorOption2.backgroundColor);
             }}
             accessible={true}
@@ -90,9 +90,9 @@ const Start = ({ navigation }) => {
             accessibilityRole='button'
           ></TouchableOpacity>
 
-          {/* Color Option 3: Light Blue */}
+          {/* Color Option 3: Light Blue Box */}
           <TouchableOpacity
-            style={[styles.colorChooser, styles.colorOption3]}
+            style={[styles.box, styles.colorOption3]}
             onPress={() => { setBackground(styles.colorOption3.backgroundColor);
             }}
             accessible={true}
@@ -101,9 +101,9 @@ const Start = ({ navigation }) => {
             accessibilityRole='button'
           ></TouchableOpacity>
 
-          {/* Color Option 4: Clementine */}
+          {/* Color Option 4: Clementine Box */}
           <TouchableOpacity
-            style={[styles.colorChooser, styles.colorOption4]}
+            style={[styles.box, styles.colorOption4]}
             onPress={() => { setBackground(styles.colorOption4.backgroundColor);
             }}
             accessible={true}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     padding: "6%",
     resizeMode: "cover",
     alignItems: "center",
@@ -203,6 +203,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "flex-start",
     marginLeft: 20,
+  },
+  box: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginVertical: 25,
+    marginHorizontal: 10,
   },
   colorOption1: {
     backgroundColor: "#FFDB58",
