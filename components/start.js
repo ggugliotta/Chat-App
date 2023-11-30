@@ -30,10 +30,10 @@ const Start = ({ navigation }) => {
 
    //Colors for the Background Color Selector
     const backgroundColors = {
-      1: "#FFDB58",  //mustard yellow
-      2: "#E6E6FA", //lavendar
-      3: "#ADD8E6", //light blue
-      4: "#EB5E00", //clementine
+      1: "#090C08",  // Dark Gray
+      2: "#474056", // Mauve/Purple
+      3: "#8A95A5", // Light Gray
+      4: "#B9C6AE", // Light Green
     };
 
   // Local states for username and background color
@@ -67,7 +67,7 @@ const Start = ({ navigation }) => {
           />
        
           <Text style={styles.chooseBgText}>
-            Choose Background Color
+            Choose Background Color:
           </Text>
           
         {/* Background Color Wrapper */}
@@ -106,7 +106,7 @@ const Start = ({ navigation }) => {
             accessibilityHint="Navigates to the chat screen."
             accessibilityRole="button"
           >
-            <Text style={styles.buttonText}>Get started</Text>
+            <Text style={styles.buttonText}>Join Chat</Text>
           </TouchableOpacity>
         </View>
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null   }
@@ -135,12 +135,16 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     color: "white",
     alignSelf: "center",
+    marginTop: "20%",
   },
   inputBox: {
+    marginTop: "70%",
+    alignItems: 'center',
+    backgroundColor: "#ffffff",
     height: "44%",
-    width: '88%',
-    padding: "6%",
-    paddingBottom: 20,
+    width: '100%',
+    justifyContent: "space-evenly",
+    padding: 15,
   },
   nameTextInput: {
     fontSize: 16,
@@ -151,42 +155,54 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 15,
     marginBottom: 15,
-    opacity: 0.5,
+    opacity: "50%",
   },
-
   chooseBgText: {
     fontSize: 16,
     fontWeight: '300',
     color: '#757083',
-    margin: 10,
+    opacity: "100%",
+    marginTop: 10,
+    marginBottom: 0,
     textAlign: "center",
     alignSelf: "flex-start",
-    marginLeft: 20,
+    marginLeft: 40,
+
   },
   bgColorWrapper: {
+    display: "flex",
     flexDirection: "row",
+    width: "90%",
     justifyContent: "space-between",
     alignItems: "center",
-    alignSelf: "flex-start",
     marginBottom: 20,
+    marginTop: 0,
   },
   colorCircle: {
-    height: 50,
-    width: 50,
-    radius: 25,
+    height: 45,
+    width: 45,
+    borderRadius: 22.5,
+    marginVertical: 25,
+    marginHorizontal: 10,
   },
   activeColorCircle: {
     borderWidth: 2,
     borderColor: "#757083",
+    margin: 10,
   },
   button: {
-    backgroundColor: "#000",
-    padding: 10,
+    backgroundColor: "#474056",
+    width: "88%",
+    padding: 15,
+    borderWidth: 1,
+    marginTop: 15,
+    marginBottom: 15,
   },
   buttonText: {
     color: "#FFF",
     fontWeight: "bold",
     textAlign: "center",
+    fontSize: 16,
   },
 });
 
