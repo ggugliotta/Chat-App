@@ -1,57 +1,89 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
-import { collection, getDocs, addDoc, onSnapshot, query, where } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
-const Chat = ({ db, route, navigation }) => {
-  const { userID } = route.params;
+const Chat = ({ route, navigation, db}) => {
+  // Extract parameters from navigation route
+  const  { name, color, userID } = route.params;
+ 
+  // Chat Messages state
   const [messages, setMessages] = useState([]);
 
+  let unsubMessages; // unsubscribe function for Firestore listener
+
+
   useEffect(() => {
-    navigation.setOptions({ title: name })
-    
-  }, []);
+    // Set the title of the chat screen to the name of the user
+    navigation.setOptions({ title: name });
+    // Create a query to listen to the messages collection in Firestore
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const unsubMessages = onSnapshot(q, (docs) => {
+     let newMessages = [];
+     docs.forEach(doc => {
+      newMessages.push({
+       id: doc.id,
+       ...doc.data(),
+       createdAt: new Date(doc.data().createdAt.toMillis())
+     })
+   })
+   // Update the messages state with the new messages
+   setMessages(newMessages);
+ })
+ // Unsubscribe from the query when the component unmounts
+ return () => {
+   if (unsubMessages) unsubMessages();
+ }
+}, []);
+  
+// Handler to send new messages to Firestore
+const onSend =  (newMessages) => {
+    addDoc(collection(db, "messages"), newMessages[0]);
+  };
 
-  const onSend = (newMessages) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
-  }
-
+  //Customize chat bubble style
   const renderBubble = (props) => {
-    return <Bubble
-      {...props}
-      wrapperStyle={{
-        right: {
-          backgroundColor: "#000"
-        },
-        left: {
-          backgroundColor: "#FFF"
-        }
-      }}
-    />
-  }
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: "#000"
+          },
+          left: {
+            backgroundColor: "#FFF"
+          },
+        }}
+      />
+    );
+  };
 
+  // Render Main Chat UI 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { flex: 1, backgroundColor: color }]}>
        <GiftedChat
          messages ={messages}
          renderBubble={renderBubble}
-         onSend={messages => onSend(messages)}
+         onSend={(messages) => onSend(messages)}
          user={{
-          _id: 1,
-          name
+          _id: userID,
+          name,
           }}
+          accessible={true}
+          accessibilityLabel="Chat Input"
+          accessibilityHint="Displays Messages."
+          accessibilityRole="text"
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null   }
-        { Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null   }
     </View>
-   
   );
-}
+};
 
+// Styling for Chat Component
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default Chat;

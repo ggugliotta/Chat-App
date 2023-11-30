@@ -1,6 +1,6 @@
 // import the screens
-import Start from './components/start';
-import Chat from './components/chat';
+import Start from './components/Start';
+import Chat from './components/Chat';
 
 // initialize firebase and firestore
 import { initializeApp } from 'firebase/app';
