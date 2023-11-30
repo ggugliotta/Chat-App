@@ -12,9 +12,11 @@ const Chat = ({ route, navigation, db}) => {
 
   let unsubMessages; // unsubscribe function for Firestore listener
 
-  // Set the title of the chat screen to the name of the user
+
   useEffect(() => {
+    // Set the title of the chat screen to the name of the user
     navigation.setOptions({ title: name });
+    // Create a query to listen to the messages collection in Firestore
     const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
     const unsubMessages = onSnapshot(q, (docs) => {
      let newMessages = [];
@@ -25,8 +27,10 @@ const Chat = ({ route, navigation, db}) => {
        createdAt: new Date(doc.data().createdAt.toMillis())
      })
    })
+   // Update the messages state with the new messages
    setMessages(newMessages);
  })
+ // Unsubscribe from the query when the component unmounts
  return () => {
    if (unsubMessages) unsubMessages();
  }

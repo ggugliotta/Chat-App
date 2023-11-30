@@ -117,7 +117,6 @@ const Start = ({ navigation }) => {
 
 
 // Styling for Start Component
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
