@@ -164,10 +164,9 @@ const styles = StyleSheet.create({
     opacity: "100%",
     marginTop: 10,
     marginBottom: 0,
+    marginLeft: 20,
     textAlign: "center",
     alignSelf: "flex-start",
-    marginLeft: 40,
-
   },
   bgColorWrapper: {
     display: "flex",
@@ -188,7 +187,6 @@ const styles = StyleSheet.create({
   activeColorCircle: {
     borderWidth: 2,
     borderColor: "#757083",
-    margin: 10,
   },
   button: {
     backgroundColor: "#474056",
