@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db}) => {
   // Extract parameters from navigation route
   const  { name, color, userID } = route.params;
  
@@ -15,40 +15,22 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   // Set the title of the chat screen to the name of the user
   useEffect(() => {
     navigation.setOptions({ title: name });
-  }, []);
-
-  // Fetch messages from Firestore
-  useEffect(() => {
-     if (isConnected === true) {
-
-      if(unsubMessages) unsubMessages(); // unsubscribe from previous listener
-      unsubMessages = null;
-  
-      // Query Firestore for messages, ordered by createdAt
-      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-      
-     // Listen for real-time changes in messages collection
-     unsubMessages = onSnapshot(q, (docs) => {
-      let newMessages = [];
-      docs.forEach((doc) => {
-        newMessages.push({
-          _id: doc.id,
-          ...doc.data(),
-          createdAt: new Date(doc.data().createdAt.toMillis()),  
-        });
-      });
-      cacheMessages(newMessages);
-      setMessages(newMessages);
-    });
-  } else  loadCachedMessages(); // Load cached messages if offline 
-
-  // Cleanup function to unsubscribe from Firestore listener
-  return () => {
-    if (unsubMessages) {
-      unsubMessages();
-    }
-  };
-}, [isConnected]);
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const unsubMessages = onSnapshot(q, (docs) => {
+     let newMessages = [];
+     docs.forEach(doc => {
+      newMessages.push({
+       id: doc.id,
+       ...doc.data(),
+       createdAt: new Date(doc.data().createdAt.toMillis())
+     })
+   })
+   setMessages(newMessages);
+ })
+ return () => {
+   if (unsubMessages) unsubMessages();
+ }
+}, []);
   
 // Handler to send new messages to Firestore
 const onSend =  (newMessages) => {

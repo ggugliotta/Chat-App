@@ -15,7 +15,7 @@ const Start = ({ navigation }) => {
     signInAnonymously(auth)
     //navigate to the chat screen, and pass this object to it.
       .then(result => {
-        navigation.navigate("chat", {
+        navigation.navigate("Chat", {
           userID: result.user.uid,
           name: name, 
           color: color,
@@ -155,13 +155,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 15,
     marginBottom: 15,
-    opacity: "50%",
+    opacity: 50,
   },
   chooseBgText: {
     fontSize: 16,
     fontWeight: '300',
     color: '#757083',
-    opacity: "100%",
+    opacity: 100,
     marginTop: 10,
     marginBottom: 0,
     marginLeft: 20,
