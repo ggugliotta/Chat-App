@@ -92,6 +92,7 @@ const onSend =  (newMessages) => {
         { Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null   }
     </View>
   );
+};
 
 // Styling for Chat Component
 const styles = StyleSheet.create({
