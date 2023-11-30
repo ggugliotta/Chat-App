@@ -75,7 +75,6 @@ const onSend =  (newMessages) => {
           accessibilityRole="text"
         />
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null   }
-        { Platform.OS === 'ios' ? <KeyboardAvoidingView behavior="padding" /> : null   }
     </View>
   );
 };
