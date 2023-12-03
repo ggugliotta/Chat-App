@@ -27,18 +27,13 @@ const Chat = ({ route, navigation, db, isConnected}) => {
 
       // Create a query to listen to the messages collection in Firestore
       const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-      unsubMessages = onSnapshot(q,
-        async (documentSnapshot) => {
+      const unsubMessages = onSnapshot(q, async (documentSnapshot) => {
           let newMessages = [];
           documentSnapshot.forEach(doc => {
             newMessages.push({id: doc.id,...doc.data(),
             createdAt: new Date(doc.data().createdAt.toMillis()) });
         });
-        try {
-          await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
-        } catch (error) {
-          console.log(error.message);
-        }
+        cacheMessages(newMessages);
         setLists(newMessages);
       });
   } else {
@@ -52,6 +47,14 @@ const Chat = ({ route, navigation, db, isConnected}) => {
      if (unsubMessages) unsubMessages();
   }
 }, [isConnected]);
+
+const cacheMessages = async (messages) => {
+ try {
+    await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
+  } catch (error) {
+    console.log(error.message);
+  }
+}
   
 // Handler to send new messages to Firestore
 const onSend =  (newMessages) => {
@@ -83,6 +86,7 @@ const onSend =  (newMessages) => {
   // Render Main Chat UI 
   return (
     <View style={[styles.container, { flex: 1, backgroundColor: color }]}>
+    {/*{(isConnected === true) ? */}
        <GiftedChat
          messages ={messages}
          renderBubble={renderBubble}
@@ -99,10 +103,12 @@ const onSend =  (newMessages) => {
           accessibilityHint="Displays Messages."
           accessibilityRole="text"
         />
+
         { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null   }
     </View> 
   );
 };
+
 
 // Styling for Chat Component
 const styles = StyleSheet.create({
