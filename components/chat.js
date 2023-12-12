@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Bubble, GiftedChat, InputToolbar } from 'react-native-gifted-chat';
+import { Bubble, GiftedChat, InputToolbar, renderActions } from 'react-native-gifted-chat';
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -81,6 +81,10 @@ const onSend =  (newMessages) => {
   const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
+  }
+
+  const renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
   }
 
   // Render Main Chat UI 
