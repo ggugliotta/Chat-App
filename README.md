@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/ggugliotta/Chat-App">
-    <img src="ZingPing.png" alt="Logo" width="80" height="80">
+    <img src="ZingPing.png" alt="Logo" >
   </a>
 
   <h3 align="center">Zing Ping -- Message Instantaneously </h3>
