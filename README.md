@@ -27,12 +27,8 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Authors](#authors)
-* [Acknowledgements](#acknowledgements)
+
+
 
 ## About The Project
 
@@ -91,16 +87,5 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/ggugliotta/Chat-App/blob/main/LICENSE.md) for more information.
 
-## Authors
-
-* **** - ** - []() - **
-
-## Acknowledgements
-
-* []()
-* []()
-* []()
