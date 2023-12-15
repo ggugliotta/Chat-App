@@ -3,8 +3,9 @@ import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { Bubble, GiftedChat, InputToolbar, renderActions } from 'react-native-gifted-chat';
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';  
+
+import CustomActions from './CustomActions';
 
 const Chat = ({ route, navigation, db, isConnected}) => {
   // Extract parameters from navigation route
@@ -17,10 +18,10 @@ const Chat = ({ route, navigation, db, isConnected}) => {
 
   useEffect(() => {
 
-    if (isConnected === true) {
+    // Set the title of the chat screen to the name of the user
+    navigation.setOptions({ title: name });
 
-      // Set the title of the chat screen to the name of the user
-      navigation.setOptions({ title: name });
+    if (isConnected === true) {
 
       // unregister current onSnapshot listener to avoid registering multiple listeners when
      // useEffect code is re-executed.
@@ -50,9 +51,14 @@ const Chat = ({ route, navigation, db, isConnected}) => {
   }
 }, [isConnected]);
 
-const cacheMessages = async (messages) => {
+const loadCachedMessages = async () => {
+  const cacheMessages = await AsyncStorage.getItem("messages") || [];
+  setMessages(JSON.parse(cacheMessages));
+}
+
+const cacheMessages = async (messagesToCache) => {
  try {
-    await AsyncStorage.setItem("messages", JSON.stringify(newMessages));
+    await AsyncStorage.setItem("messages", JSON.stringify(messagesToCache));
   } catch (error) {
     console.log(error.message);
   }
@@ -86,7 +92,7 @@ const onSend =  (newMessages) => {
   }
 
   const renderCustomActions = (props) => {
-    return <CustomActions storage={storage} onSend={onSend} {...props} />;
+    return <CustomActions userID={userID} storage={storage} {...props} />;
   }
 
   const renderCustomView = (props) => {
