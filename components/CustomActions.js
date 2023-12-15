@@ -1,61 +1,42 @@
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
-import { useActionSheet } from "@expo/react-native-action-sheet";
+import { TouchableOpacity, View, Text, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
-    const actionSheet = useActionSheet();
+const CustomActions = ({ wrapperStyle, iconTextStyle, storage, onSend, userID }) => {
+  const actionSheet = useActionSheet();
 
-    const generateReference = (uri) => {
-    const timeStamp = (new Date()).getTime();
-    const imageName = uri.split("/")[uri.split("/").length - 1];
-    return `${userID}-${timeStamp}-${imageName}`;
-   }
-    
-    const onActionPress = () => {
-        const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel']
-        const cancelButtonIndex = options.length - 1;
-        actionSheet.showActionSheetWithOptions(
-            {
-                options,
-                cancelButtonIndex,
-            },
-            async (buttonIndex) => {
-                switch (buttonIndex) {
-                    case 0:
-                        console.log('user wants to pick an image');
-                        return pickImage();
-                    case 1:
-                        console.log('user wants to take a photo');
-                        return takePhoto();
-                    case 2:
-                        console.log('user wants to get their location');
-                        return getLocation();
-                    default:
-                }
-            },
-        );
-    }  
-  
-  const uploadAndSendImage = async (imageURI) => {
-    const uniqueRefString = generateReference(imageURI);
-    const newUploadRef = ref(storage, uniqueRefString);
-    const response = await fetch(imageURI);
-    const blob = await response.blob(); 
-    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-      console.log('file has been uploaded');
-      const imageURL = await getDownloadURL(snapshot.ref);
-      onSend({ image: imageURL})
-    });
-  }
-  
+  const onActionPress = () => {
+    const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
+    const cancelButtonIndex = options.length - 1;
+    actionSheet.showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      async (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            pickImage();
+            return;
+          case 1:
+            takePhoto()
+            return;
+          case 2:
+            getLocation();
+          default:
+        }
+      },
+    );
+  };
+
   const pickImage = async () => {
     let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions?.granted) {
       let result = await ImagePicker.launchImageLibraryAsync();
       if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
-      } else Alert.alert("Permissions haven't been granted.");
+      else Alert.alert("Permissions haven't been granted.");
     }
   }
 
@@ -63,9 +44,8 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     let permissions = await ImagePicker.requestCameraPermissionsAsync();
     if (permissions?.granted) {
       let result = await ImagePicker.launchCameraAsync();
-      if (!result.canceled) {
-        console.log('uploading and uploading the image occurs here');
-      } else Alert.alert("Permissions haven't been granted.");
+      if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
+      else Alert.alert("Permissions haven't been granted.");
     }
   }
 
@@ -84,12 +64,29 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     } else Alert.alert("Permissions haven't been granted.");
   }
 
+  const generateReference = (uri) => {
+    // this will get the file name from the uri
+    const imageName = uri.split("/")[uri.split("/").length - 1];
+    const timeStamp = (new Date()).getTime();
+    return `${userID}-${timeStamp}-${imageName}`;
+  }
 
-return (
-    <TouchableOpacity style={styles.container} onPress = {onActionPress}>
-        <View style ={[styles.wrapper, wrapperStyle]}>
-            <Text style={[styles.iconText, iconTextStyle]}>+</Text>
-        </View>
+  const uploadAndSendImage = async (imageURI) => {
+    const uniqueRefString = generateReference(imageURI);
+    const newUploadRef = ref(storage, uniqueRefString);
+    const response = await fetch(imageURI);
+    const blob = await response.blob();
+    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      const imageURL = await getDownloadURL(snapshot.ref)
+      onSend({ image: imageURL })
+    });
+  }
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={onActionPress}>
+      <View style={[styles.wrapper, wrapperStyle]}>
+        <Text style={[styles.iconText, iconTextStyle]}>+</Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -110,7 +107,7 @@ const styles = StyleSheet.create({
   iconText: {
     color: '#b2b2b2',
     fontWeight: 'bold',
-    fontSize: 10,
+    fontSize: 16,
     backgroundColor: 'transparent',
     textAlign: 'center',
   },
