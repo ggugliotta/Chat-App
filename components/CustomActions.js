@@ -2,10 +2,16 @@ import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage }) => {
+const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
     const actionSheet = useActionSheet();
+
+    const generateReference = (uri) => {
+    const timeStamp = (new Date()).getTime();
+    const imageName = uri.split("/")[uri.split("/").length - 1];
+    return `${userID}-${timeStamp}-${imageName}`;
+   }
     
     const onActionPress = () => {
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel']
@@ -31,19 +37,24 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage }) => {
             },
         );
     }  
-
- const pickImage = async () => {
+  
+  const uploadAndSendImage = async (imageURI) => {
+    const uniqueRefString = generateReference(imageURI);
+    const newUploadRef = ref(storage, uniqueRefString);
+    const response = await fetch(imageURI);
+    const blob = await response.blob(); 
+    uploadBytes(newUploadRef, blob).then(async (snapshot) => {
+      console.log('file has been uploaded');
+      const imageURL = await getDownloadURL(snapshot.ref);
+      onSend({ image: imageURL})
+    });
+  }
+  
+  const pickImage = async () => {
     let permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissions?.granted) {
       let result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.canceled) {
-        const imageURI = result.assets[0].uri;
-        const response = await fetch(imageURI);
-        const blob = await response.blob(); 
-        const newUploadRef = ref(storage, 'image123');
-        uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-          console.log('uploading and uploading the image occurs here');
-        })
+      if (!result.canceled) await uploadAndSendImage(result.assets[0].uri);
       } else Alert.alert("Permissions haven't been granted.");
     }
   }
