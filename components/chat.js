@@ -3,6 +3,8 @@ import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { Bubble, GiftedChat, InputToolbar, renderActions } from 'react-native-gifted-chat';
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';  
 
 const Chat = ({ route, navigation, db, isConnected}) => {
   // Extract parameters from navigation route
@@ -84,7 +86,28 @@ const onSend =  (newMessages) => {
   }
 
   const renderCustomActions = (props) => {
-    return <CustomActions {...props} />;
+    return <CustomActions storage={storage} onSend={onSend} {...props} />;
+  }
+
+  const renderCustomView = (props) => {
+    const { currentMessage} = props;
+    if (currentMessage.location) {
+      return (
+          <MapView
+            style={{width: 150,
+              height: 100,
+              borderRadius: 13,
+              margin: 3}}
+            region={{
+              latitude: currentMessage.location.latitude,
+              longitude: currentMessage.location.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+      );
+    }
+    return null;
   }
 
   // Render Main Chat UI 
@@ -94,13 +117,21 @@ const onSend =  (newMessages) => {
        <GiftedChat
          messages ={messages}
          renderBubble={renderBubble}
-         renderInputToolbar ={renderInput}
+         renderInputToolbar ={renderInputToolbar}
+         onSend ={messages => onSend(messages)}
          renderActions={renderCustomActions}
          renderCustomView={renderCustomView}
-         onSend={messages => onSend(messages)}
          user={{
           _id: userID,
           name,
+          text: 'My message',
+          createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
+          user: {
+            _id: userID,
+            name,
+            avatar: 'https://placeimg.com/140/140/any',
+          },
+            image: 'https://placeimg.com/140/140/any',
           }}
           accessible={true}
           accessibilityLabel="Chat Input"
@@ -119,6 +150,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+    logoutButton: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    backgroundColor: "#C00",
+    padding: 10,
+    zIndex: 1
+  },
+  logoutButtonText: {
+    color: "#FFF",
+    fontSize: 10
+  }
 });
 
 export default Chat;
