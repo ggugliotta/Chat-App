@@ -4,7 +4,7 @@
     <img src="ZingPing.png" alt="Logo" >
   </a>
 
-  <h3 align="center">Zing Ping -- Message Instantaneously </h3>
+  <h3 align="center">Zing Ping Chat Application </h3>
 
   <p align="center">
     <a href="https://github.com/ggugliotta/Chat-App"><strong>Explore the docs »</strong></a>
