@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { Bubble, GiftedChat, InputToolbar, renderActions } from 'react-native-gifted-chat';
+import { Bubble, GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapView from 'react-native-maps';  
 
 import CustomActions from './CustomActions';
 
-const Chat = ({ route, navigation, db, isConnected}) => {
+const Chat = ({ route, storage, navigation, db, isConnected}) => {
   // Extract parameters from navigation route
   const  { name, color, userID } = route.params;
  
@@ -30,14 +30,14 @@ const Chat = ({ route, navigation, db, isConnected}) => {
 
       // Create a query to listen to the messages collection in Firestore
       const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-      const unsubMessages = onSnapshot(q, async (documentSnapshot) => {
+      unsubMessages = onSnapshot(q, (docs) => {
           let newMessages = [];
-          documentSnapshot.forEach(doc => {
+          docs.forEach(doc => {
             newMessages.push({id: doc.id,...doc.data(),
             createdAt: new Date(doc.data().createdAt.toMillis()) });
         });
         cacheMessages(newMessages);
-        setLists(newMessages);
+        setMessages(newMessages);
       });
   } else {
       Alert.alert("Connection lost");
