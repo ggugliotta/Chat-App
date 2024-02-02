@@ -41,6 +41,7 @@ This is a simple messaging application that allows users to access a chat room a
 - Google Firebase
 - AsyncStorage (for offline usage)
 - Gifted Chat
+- Andriod SDK 
 
 ## Getting Started
 
